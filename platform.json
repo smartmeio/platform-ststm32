@@ -200,6 +200,12 @@
       "owner": "platformio",
       "version": "~3.10000.0"
     },
+    "framework-arduino-stm32-arancino": {
+      "type": "framework",
+      "optional": true,
+      "owner": "smartme-io",
+      "version": "~2.0.1-test.6"
+    },
     "framework-arduinostm32mxchip": {
       "type": "framework",
       "optional": true,
