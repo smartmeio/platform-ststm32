@@ -232,13 +232,10 @@ elif upload_protocol == "dfu-stm32":
         "-a", "0", "-s",
         "%s:leave" % board.get("upload.offset_address", "0x08000000"),
         "-f",
-        "%f:leave" % board.get("upload.offset_address", "0x08000000")
+        "%f:leave" % board.get("upload.offset_address", "0x08000000"), "-O"
     ]
 
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
-
-
-# string{dfu, -d 0483:df11, "-a", "0", "-O", *bin_file_name, "-s", "0x08000000", "-f", "0x08000000"}
 
     if "arduino" in env.get("PIOFRAMEWORK"):
         if env.subst("$BOARD").startswith("portenta"):
