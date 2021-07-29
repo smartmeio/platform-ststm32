@@ -35,6 +35,10 @@ if core == "maple":
     build_script = join(
         env.PioPlatform().get_package_dir("framework-arduinoststm32-maple"),
         "tools", "platformio-build-%s.py" % mcu[0:7])
+if core == "arancino":
+    build_script = join(
+        env.PioPlatform().get_package_dir("framework-arduino-stm32-arancino"),
+        "tools", "platformio-build.py")
 elif core == "stm32l0":
     build_script = join(
         env.PioPlatform().get_package_dir("framework-arduinoststm32l0"),
