@@ -227,13 +227,13 @@ elif upload_protocol == "dfu-stm32":
 
     # default tool for all boards with embedded DFU bootloader over USB
     _upload_tool = '"%s"' % join(platform.get_package_dir(
-        "tool-dfuutil-stm32") or "", "bin", "dfu-util")
+        "tool-dfuutil-stm32") or "", "dfu-util")
     _upload_flags = [
         "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
         "-a", "0", "-s",
-        "%s:leave" % board.get("upload.offset_address", "0x08000000"),
+        "%s" % board.get("upload.offset_address", "0x08000000"),
         "-f",
-        "%f:leave" % board.get("upload.offset_address", "0x08000000"), "-O"
+        "%s" % board.get("upload.offset_address", "0x08000000"), "-O"
     ]
 
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
