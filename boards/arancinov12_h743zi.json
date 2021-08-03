@@ -2,8 +2,14 @@
   "build": {
     "core": "arancino",
     "cpu": "cortex-m7",
-    "extra_flags": "-DSTM32H7xx -DSTM32H743xx",
+    "extra_flags": "-DSTM32H7xx -DSTM32H743xx -DUSBD_USE_CDC",
     "f_cpu": "400000000L",
+    "hwids": [
+      [
+        "0x0483",
+        "0x5740"
+      ]
+    ],
     "mcu": "stm32h743zit6",
     "product_line": "STM32H743xx",
     "variant": "STM32H7xx/ArancinoV12"
@@ -43,7 +49,10 @@
       "stlink",
       "blackmagic",
       "mbed"
-    ]
+    ],
+    "require_upload_port": true,
+    "use_1200bps_touch": true,
+    "wait_for_upload_port": true
   },
   "url": "https://www.smartme.io",
   "vendor": "smartme.io"
