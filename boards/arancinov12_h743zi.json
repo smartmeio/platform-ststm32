@@ -38,6 +38,7 @@
     "protocol": "stlink",
     "protocols": [
       "jlink",
+      "dfu-stm32",
       "cmsis-dap",
       "stlink",
       "blackmagic",
