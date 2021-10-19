@@ -46,6 +46,7 @@ class Ststm32Platform(PlatformBase):
                 self.frameworks["arduino"]["package"] = "framework-arduino-stm32-arancino"
                 self.packages["framework-arduino-stm32-arancino"]["optional"] = False
                 self.packages["framework-arduinoststm32"]["optional"] = True
+                self.packages["framework-cmsis"]["optional"] = False
             elif build_core == "stm32l0":
                 self.frameworks["arduino"]["package"] = "framework-arduinoststm32l0"
                 self.packages["framework-arduinoststm32l0"]["optional"] = False
