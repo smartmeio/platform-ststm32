@@ -204,6 +204,22 @@ elif upload_protocol.startswith("jlink"):
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
 
 
+# elif upload_protocol == "dfu":
+#     hwids = board.get("build.hwids", [["0x0483", "0xDF11"]])
+#     vid = hwids[0][0]
+#     pid = hwids[0][1]
+# 
+#     # default tool for all boards with embedded DFU bootloader over USB
+#     _upload_tool = '"%s"' % join(platform.get_package_dir(
+#         "tool-dfuutil") or "", "bin", "dfu-util")
+#     _upload_flags = [
+#         "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
+#         "-a", "0", "-s",
+#         "%s:leave" % board.get("upload.offset_address", "0x08000000"), "-D"
+#     ]
+# 
+#     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+
 elif upload_protocol == "dfu":
     hwids = board.get("build.hwids", [["0x0483", "0xDF11"]])
     vid = hwids[0][0]
@@ -211,23 +227,7 @@ elif upload_protocol == "dfu":
 
     # default tool for all boards with embedded DFU bootloader over USB
     _upload_tool = '"%s"' % join(platform.get_package_dir(
-        "tool-dfuutil") or "", "bin", "dfu-util")
-    _upload_flags = [
-        "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
-        "-a", "0", "-s",
-        "%s:leave" % board.get("upload.offset_address", "0x08000000"), "-D"
-    ]
-
-    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
-
-elif upload_protocol == "dfu-stm32":
-    hwids = board.get("build.hwids", [["0x0483", "0xDF11"]])
-    vid = hwids[0][0]
-    pid = hwids[0][1]
-
-    # default tool for all boards with embedded DFU bootloader over USB
-    _upload_tool = '"%s"' % join(platform.get_package_dir(
-        "tool-dfuutil-stm32") or "", "dfu-util")
+        "tool-dfuutil") or "", "dfu-util")
     _upload_flags = [
         "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
         "-a", "0", "-s",
@@ -240,6 +240,11 @@ elif upload_protocol == "dfu-stm32":
 
     if "arduino" in frameworks:
         if env.subst("$BOARD").startswith("portenta"):
+            upload_actions.insert(
+                0,
+                env.VerboseAction(BeforeUpload, "Looking for upload port...")
+            )
+        elif env.subst("$BOARD").startswith("arancino"):
             upload_actions.insert(
                 0,
                 env.VerboseAction(BeforeUpload, "Looking for upload port...")
@@ -263,27 +268,13 @@ elif upload_protocol == "dfu-stm32":
                 0, env.VerboseAction(env.AutodetectUploadPort,
                                      "Looking for upload port..."))
 
-    if "dfu-util" in _upload_tool:
+    if "dfu-util" in upload_protocol:
         # Add special DFU header to the binary image
         env.AddPostAction(
             join("$BUILD_DIR", "${PROGNAME}.bin"),
             env.VerboseAction(
                 " ".join([
-                    '"%s"' % join(platform.get_package_dir("tool-dfuutil") or "",
-                         "bin", "dfu-suffix"),
-                    "-v %s" % vid,
-                    "-p %s" % pid,
-                    "-d 0xffff", "-a", "$TARGET"
-                ]), "Adding dfu suffix to ${PROGNAME}.bin"))
-
-    if "dfu-util-stm32" in _upload_tool:
-        # Add special DFU header to the binary image
-        env.AddPostAction(
-            join("$BUILD_DIR", "${PROGNAME}.bin"),
-            env.VerboseAction(
-                " ".join([
-                    '"%s"' % join(platform.get_package_dir("tool-dfuutil-stm32") or "",
-                         "bin", "dfu-suffix"),
+                    '"%s"' % join(platform.get_package_dir("tool-dfuutil") or "", "dfu-suffix"),
                     "-v %s" % vid,
                     "-p %s" % pid,
                     "-d 0xffff", "-a", "$TARGET"
