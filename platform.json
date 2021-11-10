@@ -329,14 +329,8 @@
     "tool-dfuutil": {
       "type": "uploader",
       "optional": true,
-      "owner": "platformio",
-      "version": "~1.9.190708"
-    },
-    "tool-dfuutil-stm32": {
-      "type": "uploader",
-      "optional": true,
       "owner": "smartme-io",
-      "version": "~0.9.0-arancino5"
+      "version": "~0.9.0-arancino6"
     },
     "tool-cmake": {
       "optional": true,
