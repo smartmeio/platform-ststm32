@@ -41,10 +41,10 @@
   "upload": {
     "maximum_ram_size": 524288,
     "maximum_size": 2097152,
-    "protocol": "dfu-stm32",
+    "protocol": "dfu",
     "protocols": [
       "jlink",
-      "dfu-stm32",
+      "dfu",
       "cmsis-dap",
       "stlink",
       "blackmagic",
@@ -52,7 +52,8 @@
     ],
     "require_upload_port": true,
     "use_1200bps_touch": true,
-    "wait_for_upload_port": true
+    "wait_for_upload_port": true,
+    "offset_address": "0x08000000"
   },
   "url": "https://www.smartme.io",
   "vendor": "smartme.io"
