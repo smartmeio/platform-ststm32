@@ -8,6 +8,10 @@
       [
         "0x0483",
         "0x5740"
+      ],
+      [
+        "0x0483",
+        "0xDF11"
       ]
     ],
     "mcu": "stm32h743zit6",
@@ -52,7 +56,7 @@
     ],
     "require_upload_port": true,
     "use_1200bps_touch": true,
-    "wait_for_upload_port": true,
+    "wait_for_upload_port": false,
     "offset_address": "0x08000000"
   },
   "url": "https://www.smartme.io",

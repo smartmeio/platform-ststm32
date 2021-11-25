@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
+import sys, time
 from platform import system
 from os import makedirs
 from os.path import basename, isdir, join
@@ -37,6 +37,8 @@ def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
 
     if bool(upload_options.get("use_1200bps_touch", False)):
         env.TouchSerialPort("$UPLOAD_PORT", 1200)
+
+    time.sleep(3)
 
     if bool(upload_options.get("wait_for_upload_port", False)):
         env.Replace(UPLOAD_PORT=env.WaitForNewSerialPort(before_ports))
@@ -203,23 +205,6 @@ elif upload_protocol.startswith("jlink"):
     )
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
 
-
-# elif upload_protocol == "dfu":
-#     hwids = board.get("build.hwids", [["0x0483", "0xDF11"]])
-#     vid = hwids[0][0]
-#     pid = hwids[0][1]
-# 
-#     # default tool for all boards with embedded DFU bootloader over USB
-#     _upload_tool = '"%s"' % join(platform.get_package_dir(
-#         "tool-dfuutil") or "", "bin", "dfu-util")
-#     _upload_flags = [
-#         "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
-#         "-a", "0", "-s",
-#         "%s:leave" % board.get("upload.offset_address", "0x08000000"), "-D"
-#     ]
-# 
-#     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
-
 elif upload_protocol == "dfu":
     hwids = board.get("build.hwids", [["0x0483", "0xDF11"]])
     vid = hwids[0][0]
@@ -231,9 +216,7 @@ elif upload_protocol == "dfu":
     _upload_flags = [
         "-d", ",".join(["%s:%s" % (hwid[0], hwid[1]) for hwid in hwids]),
         "-a", "0", "-s",
-        "%s" % board.get("upload.offset_address", "0x08000000"),
-        "-f",
-        "%s" % board.get("upload.offset_address", "0x08000000"), "-O"
+        "%s:leave" % board.get("upload.offset_address", "0x08000000"), "-D"
     ]
 
     upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
