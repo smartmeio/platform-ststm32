@@ -2,7 +2,7 @@
   "build": {
     "core": "arancino",
     "cpu": "cortex-m7",
-    "extra_flags": "-DSTM32H7xx -DSTM32H743xx -DUSBD_USE_CDC -DUSBCON -DHAL_PCD_MODULE_ENABLED -DHAL_UART_MODULE_ENABLED",
+    "extra_flags": "-DSTM32H7xx -DSTM32H743xx -DUSBD_USE_CDC -DUSBCON -DHAL_PCD_MODULE_ENABLED -DHAL_UART_MODULE_ENABLED -DUSEFREERTOS",
     "f_cpu": "400000000L",
     "hwids": [
       [
